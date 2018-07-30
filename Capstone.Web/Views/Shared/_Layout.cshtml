@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - National Park Geek</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/style.css" />
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <div id="header">
+        <a href="~/"><img class="logo" src="~/Content/img/logo.png" /></a>
+    </div>
+
+    <div class="nav">
+        @Html.ActionLink("Parks", "Index", "Home", new { area = "" }, new { @class = "nav-link" })
+        @Html.ActionLink("Survey", "Survey", "Home", new { area = "" }, new { @class = "nav-link" })
+    </div>
+
+    <div id="body-content">
+        @RenderBody()
+    </div>
+
+    <div id="footer">
+        <div class="flex-container-footer">
+            <img src="~/Content/img/backpack.png" style="width:auto; height:75px;" />
+            <img src="~/Content/img/geek.png" style="width:auto; height:75px;" />
+            <img src="~/Content/img/backpack.png" style="width:auto; height:75px;" />
+
+            <p>
+                &copy; @DateTime.Now.Year - National Park Geek
+                <br />
+                <small>Web Design by Nick Ratterman & Will Kirschner</small>
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>

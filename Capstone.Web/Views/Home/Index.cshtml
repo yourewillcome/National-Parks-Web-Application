@@ -1,0 +1,25 @@
+﻿@using Capstone.Web.Models
+@model List<ParkIndexModel>
+
+@{
+    /**/
+
+    ViewBag.Title = "Home";
+}
+
+
+@foreach (var item in Model)
+{
+<a class="flex-container-home" href="~/Home/Detail?ParkCode=@(item.ParkCode)" style="text-decoration-line:none;">
+
+
+        <div><img class="park-image" src="~/Content/img/parks/@(item.ParkCode).jpg " /></div>
+        <div class="park-text">
+            <h2>@item.ParkName</h2>
+            <hr />
+            <p>@item.ParkDescription</p>
+            <hr />
+        </div>
+</a>
+}
+

@@ -1,0 +1,63 @@
+﻿@using Capstone.Web.Models
+@model Surveys
+
+@{
+    /**/
+
+    ViewBag.Title = "Register";
+    List<ParkCodeAndNameModel> parkNames = (List<ParkCodeAndNameModel>)Session["parkNames"];
+}
+
+<div class="flex-container-survey">
+    <div>
+        <h1 class="text-center">Survey</h1>
+    </div>
+</div>
+
+<div class="flex-container-survey">
+    <div>
+        <h2 class="text-center">Vote For Your Favorite</h2>
+
+        @using (Html.BeginForm("Survey", "Home", FormMethod.Post))
+        {
+            <div class="form-group">
+                @Html.LabelFor(m => m.ParkCode, "Park Name")
+                <select data-val="true" data-val-required="Please select a park" id="ParkCode" name="ParkCode" class="form-control">
+                    @foreach (ParkCodeAndNameModel item in parkNames)
+                    {
+                        <option value="@item.ParkCode">@item.ParkName</option>
+                    }
+                    @Html.ValidationMessageFor(m => m.ParkCode)
+                </select>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.EmailAddress, "Email")
+                @Html.EditorFor(m => m.EmailAddress, new { htmlAttributes = new { @placeholder = "enter email", @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.EmailAddress)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.State, "State")
+                @Html.DropDownListFor(m => m.State, Surveys.States, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.State)
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.ActivityLevel, "Activity Level")
+                @Html.DropDownListFor(m => m.ActivityLevel, Surveys.ActivityLevels, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ActivityLevel)
+            </div>
+
+            <button class="formSubmitButton btn btn-primary">Submit</button>
+
+        }
+    </div>
+
+    <div>
+        <h2 class="text-center">Top Picks</h2>
+        <p>Click below to find out what everyone's favorite parks are. And don't forget to let your voice be heard and participate in the survey yourself!</p>
+        <a href="@Url.Action("SurveyResult", "Home")" class="btn btn-primary btn-lg" style="display:block; margin:auto;" >View Top Parks</a>
+    </div>
+
+</div>

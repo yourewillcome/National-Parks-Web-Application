@@ -1,0 +1,36 @@
+﻿@using Capstone.Web.Models
+@model List<SurveyResultModel>
+@{
+    int count = 1;
+}
+
+@foreach (SurveyResultModel item in Model)
+{
+    <div class="flex-container-result">
+        <div>
+            <img src="~/Content/img/parks/@(item.ParkCode.ToLower()).jpg" class="park-image"/>
+        </div>
+        <div>
+            <h1>@item.ParkName</h1>
+            <p>@item.ParkDescription.</p>
+
+            @if (count == 1)
+            {
+            <div class="flex-container-result">
+                <div>
+                    <h2 class="text-center" style="font-size:2em; color:gold;">Top<br/>Pick</h2>
+                </div>
+                <div>
+                    <i class="fa fa-trophy fa-5x" style="color:gold;"></i>
+                </div>
+            </div>
+            }
+            else
+            {
+            <h2>Rank: @count</h2>
+            }
+
+                </div>
+            </div>
+    count++;
+}

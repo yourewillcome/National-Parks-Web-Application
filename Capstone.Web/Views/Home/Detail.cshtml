@@ -1,0 +1,219 @@
+﻿@using Capstone.Web.Models
+@model Tuple<Parks, List<Weather>>
+
+@{
+    ViewBag.Title = "Detail";
+    Parks park = Model.Item1;
+    List<Weather> forecast = Model.Item2;
+    string temperatureMessage = "Remember: weather can kill no matter how pleasant the day.";
+    string forecastMessage = "";
+    //string scale = (string)ViewData["scale"];
+    string day = "";
+    string parkCode = Session["ParkCode"] as string;
+    parkCode = park.ParkCode;
+    string scale = Session["Scale"] as string;
+}
+
+<div class="flex-container-detail">
+    <div>
+        <img src="~/Content/img/parks/@(parkCode).jpg" alt="@parkCode" class="detail-image" />
+    </div>
+</div>
+
+<div class="flex-container-detail">
+
+    <div class="text-center">
+            @park.ParkName
+        </div>
+</div>
+
+<div class="flex-container-detail">
+    <div>
+        <h3 class="text-center">About This Park</h3>
+        <p class="detail-description">@park.ParkDescription</p>
+    </div>
+    <div>
+        <h3 class="text-center">Park Quote</h3>
+        <hr />
+        <blockquote class="blockquote text-justify">
+            "@park.InspirationalQuote"<br />
+            <small><strong>by @park.InspirationalQuoteSource</strong></small>
+        </blockquote>
+        <hr />
+    </div>
+</div>
+
+<div class="flex-container-detail">
+    <div>
+        <h1 class="text-center">Park Details</h1>
+    </div>
+</div>
+
+<div class="flex-container-cards">
+    <div class="card border-dark mb-3" style="max-width: 18rem;">
+        <div class="card-body text-dark">
+            <h4 class="card-title">Park Code</h4>
+            <p class="card-text">@park.ParkCode</p>
+        </div>
+    </div>
+
+    <div class="card border-dark mb-3" style="max-width: 18rem;">
+        <div class="card-body text-dark">
+            <h4 class="card-title">Annual Visitors</h4>
+            <p class="card-text">@park.AnnualVisitorCount.ToString("N0")</p>
+        </div>
+    </div>
+
+    <div class="card border-dark mb-3" style="max-width: 18rem;">
+        <div class="card-body text-dark">
+            <h4 class="card-title">Entry Fee</h4>
+            <p class="card-text">@park.EntryFee.ToString("c")</p>
+        </div>
+    </div>
+
+    <div class="card border-dark mb-3" style="max-width: 18rem;">
+        <div class="card-body text-dark">
+            <h4 class="card-title">Year Founded</h4>
+            <p class="card-text">@park.YearFounded</p>
+        </div>
+    </div>
+</div>
+
+<div class="flex-container-cards">
+    <div class="card border-dark mb-3" style="max-width: 18rem;">
+        <div class="card-body text-dark">
+            <h4 class="card-title">State Location</h4>
+            <p class="card-text">@park.State</p>
+        </div>
+    </div>
+
+    <div class="card border-dark mb-3" style="max-width: 18rem;">
+        <div class="card-body text-dark">
+            <h4 class="card-title">Climate</h4>
+            <p class="card-text">@park.Climate</p>
+        </div>
+    </div>
+
+    <div class="card border-dark mb-3" style="max-width: 18rem;">
+        <div class="card-body text-dark">
+            <h4 class="card-title">Acreage</h4>
+            <p class="card-text">@park.Acreage.ToString("N0")</p>
+        </div>
+    </div>
+
+    <div class="card border-dark mb-3" style="max-width: 18rem;">
+        <div class="card-body text-dark">
+            <h4 class="card-title">Miles of Trail</h4>
+            <p class="card-text">@park.MilesOfTrail</p>
+        </div>
+    </div>
+</div>
+
+<div class="flex-container-cards">
+    <div class="card border-dark mb-3" style="max-width: 18rem;">
+        <div class="card-body text-dark">
+            <h4 class="card-title">Elevation</h4>
+            <p class="card-text">@park.Elevation.ToString("N0")</p>
+        </div>
+    </div>
+
+    <div class="card border-dark mb-3" style="max-width: 18rem;">
+        <div class="card-body text-dark">
+            <h4 class="card-title">Local Campsites</h4>
+            <p class="card-text">@park.NumOfCampsites</p>
+        </div>
+    </div>
+
+    <div class="card border-dark mb-3" style="max-width: 18rem;">
+        <div class="card-body text-dark">
+            <h4 class="card-title">Elevation</h4>
+            <p class="card-text">@park.Elevation.ToString("N0")</p>
+        </div>
+    </div>
+
+    <div class="card border-dark mb-3" style="max-width: 18rem;">
+        <div class="card-body text-dark">
+            <h4 class="card-title">Animal Species</h4>
+            <p class="card-text">@park.NumOfAnimalSpecies.ToString("N0")</p>
+        </div>
+    </div>
+</div>
+
+<div class="flex-container-detail">
+    <div>
+        <h1 class="text-center">Five Day Forecast</h1>
+    </div>
+
+    <div>
+        @using (Html.BeginForm("Detail", "Home", FormMethod.Get))
+        {
+            <select name="scale">
+                <option value="F">Fahrenheit</option>
+                <option value="C">Celsius</option>
+            </select>
+
+            <button>Set Scale</button>
+        }
+    </div>
+</div>
+
+<div class="flex-container-detail">
+
+    @foreach (Weather item in forecast)
+    {
+        <div class="container-fluid">
+            <img src="~/Content/img/weather/@(item.Forecast).png" alt="@item.Forecast" class="weather" style="width:100%;" />
+
+            @if (item.FiveDayForecastValue == 1)
+            {
+                day = "Today";
+            }
+            @if (item.FiveDayForecastValue == 2)
+            {
+                day = "Tomorrow";
+            }
+            @if (item.FiveDayForecastValue == 3)
+            {
+                day = DateTime.Now.AddDays(2).DayOfWeek.ToString();
+            }
+            @if (item.FiveDayForecastValue == 4)
+            {
+                day = DateTime.Now.AddDays(3).DayOfWeek.ToString();
+            }
+            @if (item.FiveDayForecastValue == 5)
+            {
+                day = DateTime.Now.AddDays(4).DayOfWeek.ToString();
+            }
+
+            <h3 class="text-center">@day</h3>
+
+            @if (scale == "F" || scale == null)
+            {
+                <p class="text-center HL"><strong>High</strong> @item.High&#176; F, <strong>Low</strong> @item.Low&#176; F</p>
+            }
+            else if (scale == "C")
+            {
+                <p class="text-center HL"><strong>High</strong> @item.FahrenheitToCelsius(item.High)&#176; C, <strong>Low</strong> @item.FahrenheitToCelsius(item.Low)&#176; C</p>
+            }
+
+            @if (item.FiveDayForecastValue == 1)
+            {
+                forecastMessage = item.WeatherTypeAndMessage[item.Forecast];
+                if (item.High > 75)
+                {
+                    temperatureMessage = "Bring an extra gallon of water.";
+                }
+                else if (item.High - item.Low > 20)
+                {
+                    temperatureMessage = "Wear breathable layers.";
+                }
+                else if (item.Low < 20)
+                {
+                    temperatureMessage = "Danger! Frigid temperatures are known to kill!";
+                }
+                <p>@forecastMessage</p>
+                <p>@temperatureMessage</p>
+            }
+        </div>
+    }
+</div>
